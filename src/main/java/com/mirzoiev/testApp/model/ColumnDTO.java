@@ -4,6 +4,14 @@ import com.mirzoiev.testApp.entity.ColumnEntity;
 
 import java.util.List;
 
+/**
+ * Column DTO class
+ * for transfer data from ColumnEntity class
+ *
+ * @author R.M.
+ * @see ColumnEntity
+ * @since 15.07.2022
+ */
 public class ColumnDTO {
     private Long id;
     private String name;

@@ -12,6 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
 
+/**
+ * Entity class for column
+ *
+ * @author R.M.
+ * @since 15.07.2022
+ */
 @Entity
 public class ColumnEntity {
     private static Logger logger = Logger.getLogger(ColumnEntity.class);

@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+/**
+ * Rest Controller class for column
+ *
+ * @author R.M.
+ * @since 15.07.2022
+ */
 @RestController
 @RequestMapping
 public class ColumnController {

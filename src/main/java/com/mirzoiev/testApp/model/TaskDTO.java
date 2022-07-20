@@ -1,14 +1,23 @@
 package com.mirzoiev.testApp.model;
 
+import com.mirzoiev.testApp.entity.ColumnEntity;
 import com.mirzoiev.testApp.entity.TaskEntity;
 
+/**
+ * Task DTO class
+ * for transfer data from TaskEntity class
+ *
+ * @author R.M.
+ * @see ColumnEntity
+ * @since 15.07.2022
+ */
 public class TaskDTO {
     private Long id;
     private String name;
     private String description;
     private String dateOfCreation;
-
     private Long column_id;
+
     public static TaskDTO toModel(TaskEntity task) {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(task.getId());
@@ -18,6 +27,7 @@ public class TaskDTO {
         taskDTO.setColumn_id(task.getColumn().getId());
         return taskDTO;
     }
+
     public TaskDTO() {
     }
 

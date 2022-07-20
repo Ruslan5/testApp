@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Column service class
+ *
+ * @author R.M.
+ * @since 15.07.2022
+ */
 @Service
 public class ColumnService {
     private static Logger logger = Logger.getLogger(ColumnService.class);

@@ -4,6 +4,7 @@ import com.mirzoiev.testApp.entity.ColumnEntity;
 import com.mirzoiev.testApp.entity.TaskEntity;
 import com.mirzoiev.testApp.exception.ResourceNotFoundException;
 import com.mirzoiev.testApp.model.TaskDTO;
+import com.mirzoiev.testApp.repository.queryUtil.QueryUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,19 +15,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_CREATE_TASK;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_DELETE_TASK_BY_ID;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_FIND_ALL_TASK;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_TASK_FIND_BY_ID;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_UPDATE_TASK;
+
+/**
+ * Task repository class
+ *
+ * @author R.M.
+ * @since 15.07.2022
+ * @see TaskEntity
+ * @see QueryUtil
+ */
 @Repository
 public class TaskRepo {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private ColumnRepository columnRepository;
-
-    private static final String SQL_FIND_ALL_TASK = "SELECT id, name, description, date_of_creation, column_id FROM TASK_ENTITY"; //"SELECT * FROM TASK_ENTITY";
-    private static final String SQL_CREATE_TASK = "INSERT INTO TASK_ENTITY (name, description, date_of_creation, column_id) VALUES (?, ?, ?, ?)";
-    private static final String SQL_UPDATE_TASK = "UPDATE TASK_ENTITY SET name=?, description=?, date_of_creation=?, column_id=? WHERE ID=?";
-    private static final String SQL_DELETE_TASK = "DELETE FROM TASK_ENTITY WHERE ID=?";
-    private static final String SQL_FIND_TASK_BY_ID = "SELECT id, name, description, date_of_creation, column_id FROM TASK_ENTITY WHERE ID=?";
-
     public List<TaskDTO> getAllTask() {
         return jdbcTemplate.query(
                 SQL_FIND_ALL_TASK,
@@ -77,12 +85,12 @@ public class TaskRepo {
         if (taskEntity == null){
             throw  new ResourceNotFoundException("Column not exist with id: " + id);
         }
-        jdbcTemplate.update(SQL_DELETE_TASK, id);
+        jdbcTemplate.update(SQL_DELETE_TASK_BY_ID, id);
         return id;
     }
     public TaskEntity findTaskById(Long id) {
         return (TaskEntity) jdbcTemplate.queryForObject(
-                SQL_FIND_TASK_BY_ID,
+                SQL_TASK_FIND_BY_ID,
                 new Object[]{id},
                 new BeanPropertyRowMapper(TaskEntity.class));
     }

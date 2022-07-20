@@ -1,9 +1,9 @@
 package com.mirzoiev.testApp.repository;
 
 import com.mirzoiev.testApp.entity.ColumnEntity;
-import com.mirzoiev.testApp.entity.TaskEntity;
 import com.mirzoiev.testApp.exception.ResourceNotFoundException;
 import com.mirzoiev.testApp.model.ColumnDTO;
+import com.mirzoiev.testApp.repository.queryUtil.QueryUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,23 +11,20 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Column repository class
+ *
+ * @author R.M.
+ * @since 15.07.2022
+ * @see ColumnEntity
+ * @see ColumnRepository
+ * @see QueryUtil
+ */
 @Repository
 public class ColumnRepo {
-
     private static Logger logger = Logger.getLogger(ColumnRepo.class);
-
-    private static final String SQL_FIND_ALL_COLUMN_TASK = " SELECT a.*, b.* FROM COLUMN_ENTITY AS a JOIN TASK_ENTITY AS b ON a.id = b.column_id";
-    private static final String SQL_CREATE_COLUMN = "INSERT INTO COLUMN_ENTITY (name ) VALUES (?)";
-    private static final String SQL_UPDATE_COLUMN = "UPDATE COLUMN_ENTITY SET name=? WHERE ID=?";
-    private static final String SQL_DELETE_COLUMN = "DELETE COLUMN_ENTITY WHERE ID=?";
-    private static final String SQL_DELETE_TASK = "DELETE FROM TASK_ENTITY WHERE COLUMN_ID=?";
-    private static final String SQL_FIND_COLUMN_BY_ID = "SELECT id, name FROM COLUMN_ENTITY WHERE ID=?";
-    private static final String SQL_FIND_TASK_BY_ID = "SELECT id, name, description, date_of_creation, column_id FROM TASK_ENTITY WHERE ID=?";
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -40,7 +37,7 @@ public class ColumnRepo {
 
     public ResponseEntity<ColumnDTO> createColumn(ColumnEntity column) {
         logger.debug("start method createColumn");
-        jdbcTemplate.update(SQL_CREATE_COLUMN,
+        jdbcTemplate.update(QueryUtil.SQL_CREATE_COLUMN,
                 column.getName());
         logger.debug("finish method createColumn");
         return ResponseEntity.ok(ColumnDTO.toModel(column));
@@ -51,7 +48,7 @@ public class ColumnRepo {
         ColumnEntity columnEntity = columnRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id: " + id));
         columnEntity.setName(column.getName());
-        jdbcTemplate.update(SQL_UPDATE_COLUMN,
+        jdbcTemplate.update(QueryUtil.SQL_UPDATE_COLUMN,
                 columnEntity.getName(), id);
         logger.debug("finish method renameColumn");
         return ResponseEntity.ok(columnEntity);
@@ -61,15 +58,15 @@ public class ColumnRepo {
         logger.debug("start method deleteColumn");
         columnRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id: " + id));
-        jdbcTemplate.update(SQL_DELETE_TASK, id);
-        jdbcTemplate.update(SQL_DELETE_COLUMN, id);
+        jdbcTemplate.update(QueryUtil.SQL_DELETE_TASK, id);
+        jdbcTemplate.update(QueryUtil.SQL_DELETE_COLUMN, id);
         logger.debug("finish method deleteColumn");
         return id;
     }
 
     public ColumnEntity findColumnById(Long id) {
         return (ColumnEntity) jdbcTemplate.queryForObject(
-                SQL_FIND_COLUMN_BY_ID,
+                QueryUtil.SQL_FIND_COLUMN_BY_ID,
                 new Object[]{id},
                 new BeanPropertyRowMapper(ColumnEntity.class));
     }

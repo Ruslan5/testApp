@@ -11,6 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * Entity class for task
+ *
+ * @author R.M.
+ * @since 15.07.2022
+ */
 @Entity
 public class TaskEntity {
 

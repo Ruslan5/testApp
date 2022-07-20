@@ -9,6 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Task service class
+ *
+ * @author R.M.
+ * @since 15.07.2022
+ */
 @Service
 public class TaskService {
 
@@ -18,12 +24,13 @@ public class TaskService {
     public List<TaskDTO> getAllTask() {
         return taskRepo.getAllTask();
     }
+
     /**
      * creates a task with these parameters (localhost:8080/tasks?columnId=1)
      *
-     * @param taskEntity
+     * @param taskEntity - object
      * @param columnId   - identifier of the column in which the task will be
-     * @return
+     * @return ResponseEntity<TaskDTO>
      */
     public ResponseEntity<TaskDTO> addTask(TaskEntity taskEntity, Long columnId) {
         return taskRepo.addTask(taskEntity, columnId);
@@ -34,11 +41,10 @@ public class TaskService {
      * @param id - ID of the task you want to update
      * @param task - rename body parameters
      *            {"name": "rename",
-     *             "description": "rename",
-     *             "dateOfCreation": null
+     *             "description": "rename"
      *             }
-//     * @param columnId - column identifier to which you want to move the task
-     * @return
+     * @param columnId - column identifier to which you want to move the task
+     * @return ResponseEntity<TaskDTO>
      */
     public ResponseEntity<TaskDTO> updateTask(Long id,
                                               TaskEntity task,
@@ -58,5 +64,4 @@ public class TaskService {
     public TaskEntity findTaskById(Long id) {
         return taskRepo.findTaskById(id);
     }
-
 }

@@ -15,7 +15,7 @@ public interface QueryUtil {
     /*
         SQL Query for Column Entity
      */
-    String SQL_CREATE_COLUMN = "INSERT INTO COLUMN_ENTITY (name ) VALUES (?)";
+    String SQL_CREATE_COLUMN = "INSERT INTO COLUMN_ENTITY (name) VALUES (?)";
     String SQL_UPDATE_COLUMN = "UPDATE COLUMN_ENTITY SET name=? WHERE ID=?";
     String SQL_DELETE_COLUMN = "DELETE COLUMN_ENTITY WHERE ID=?";
     String SQL_DELETE_TASK = "DELETE FROM TASK_ENTITY WHERE COLUMN_ID=?";

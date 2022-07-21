@@ -53,7 +53,8 @@ class TaskControllerTest {
     void testCreateTask() throws Exception {
         TaskEntity taskEntity = getTask();
         doNothing().when(taskController).createTask(taskEntity, 1l);
-        mvc.perform(post("/tasks" + "?columnId=" + 1).content(asJson(taskEntity)).contentType(APPLICATION_JSON))
+        mvc.perform(post("/tasks" + "?columnId=" + 1)
+                        .content(asJson(taskEntity)).contentType(APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
     }
 

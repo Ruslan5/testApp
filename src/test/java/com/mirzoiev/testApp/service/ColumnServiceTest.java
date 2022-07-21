@@ -36,6 +36,7 @@ class ColumnServiceTest {
         assertEquals(result.size(), 1);
         logger.debug("finish test method getAllColumns");
     }
+
     private ColumnEntity getColumns() {
         ColumnEntity column = new ColumnEntity();
         column.setId(1l);
@@ -48,7 +49,8 @@ class ColumnServiceTest {
     void createColumn() {
         logger.debug("start test method createColumn");
         ColumnEntity column = getColumns();
-        given(columnService.createColumn(column)).willReturn(ResponseEntity.ok(ColumnDTO.toModel(column)));
+        given(columnService.createColumn(column))
+                .willReturn(ResponseEntity.ok(ColumnDTO.toModel(column)));
         ResponseEntity<ColumnDTO> result = columnService.createColumn(column);
         assertEquals(result.getStatusCode(), HttpStatus.OK);
         logger.debug("finish test method createColumn");
@@ -58,7 +60,8 @@ class ColumnServiceTest {
     void renameColumn() {
         logger.debug("start test method renameColumn");
         ColumnEntity column = getColumns();
-        given(columnService.renameColumn(1l, column)).willReturn(ResponseEntity.ok(column));
+        given(columnService.renameColumn(1l, column))
+                .willReturn(ResponseEntity.ok(column));
         ResponseEntity<ColumnEntity> result = columnService.renameColumn(1l, column);
         assertEquals(result.getStatusCode(), HttpStatus.OK);
         logger.debug("finish test method renameColumn");

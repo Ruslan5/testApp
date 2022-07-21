@@ -13,6 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_CREATE_COLUMN;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_DELETE_COLUMN;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_DELETE_TASK;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_FIND_COLUMN_BY_ID;
+import static com.mirzoiev.testApp.repository.queryUtil.QueryUtil.SQL_UPDATE_COLUMN;
+
 /**
  * Column repository class
  *
@@ -37,7 +43,7 @@ public class ColumnRepo {
 
     public ResponseEntity<ColumnDTO> createColumn(ColumnEntity column) {
         logger.debug("start method createColumn");
-        jdbcTemplate.update(QueryUtil.SQL_CREATE_COLUMN,
+        jdbcTemplate.update(SQL_CREATE_COLUMN,
                 column.getName());
         logger.debug("finish method createColumn");
         return ResponseEntity.ok(ColumnDTO.toModel(column));
@@ -48,7 +54,7 @@ public class ColumnRepo {
         ColumnEntity columnEntity = columnRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id: " + id));
         columnEntity.setName(column.getName());
-        jdbcTemplate.update(QueryUtil.SQL_UPDATE_COLUMN,
+        jdbcTemplate.update(SQL_UPDATE_COLUMN,
                 columnEntity.getName(), id);
         logger.debug("finish method renameColumn");
         return ResponseEntity.ok(columnEntity);
@@ -58,15 +64,15 @@ public class ColumnRepo {
         logger.debug("start method deleteColumn");
         columnRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Column not exist with id: " + id));
-        jdbcTemplate.update(QueryUtil.SQL_DELETE_TASK, id);
-        jdbcTemplate.update(QueryUtil.SQL_DELETE_COLUMN, id);
+        jdbcTemplate.update(SQL_DELETE_TASK, id);
+        jdbcTemplate.update(SQL_DELETE_COLUMN, id);
         logger.debug("finish method deleteColumn");
         return id;
     }
 
     public ColumnEntity findColumnById(Long id) {
         return (ColumnEntity) jdbcTemplate.queryForObject(
-                QueryUtil.SQL_FIND_COLUMN_BY_ID,
+                SQL_FIND_COLUMN_BY_ID,
                 new Object[]{id},
                 new BeanPropertyRowMapper(ColumnEntity.class));
     }

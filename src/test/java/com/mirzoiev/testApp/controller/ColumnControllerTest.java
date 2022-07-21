@@ -42,15 +42,18 @@ class ColumnControllerTest {
         List<ColumnEntity> entityList = new ArrayList<>();
         entityList.add(columnEntity);
         given(columnController.getAllColumns()).willReturn(entityList);
-        mvc.perform(get("/").contentType(APPLICATION_JSON)).andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", is(columnEntity.getName())));
+        mvc.perform(get("/").contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers
+                        .jsonPath("$[0].name", is(columnEntity.getName())));
     }
 
     @Test
     void testCreateColumn() throws Exception {
         ColumnEntity columnEntity = getColumn();
         doNothing().when(columnController).createColumn(columnEntity);
-        mvc.perform(post("/").content(asJson(columnEntity)).contentType(APPLICATION_JSON))
+        mvc.perform(post("/").content(asJson(columnEntity))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
     }
 
@@ -59,7 +62,8 @@ class ColumnControllerTest {
         ColumnEntity columnEntity = getColumn();
         doNothing().when(columnController).renameColumn(1l, columnEntity);
         mvc.perform(put("/" + columnEntity.getId())
-                        .content(asJson(columnEntity)).contentType(APPLICATION_JSON))
+                        .content(asJson(columnEntity))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
     }
 
@@ -67,7 +71,8 @@ class ColumnControllerTest {
     void testDeleteColumn() throws Exception {
         ColumnEntity columnEntity = getColumn();
         doNothing().when(columnController).deleteColumn(1l);
-        mvc.perform(delete("/" + columnEntity.getId()).contentType(APPLICATION_JSON))
+        mvc.perform(delete("/" + columnEntity.getId())
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
     }
 

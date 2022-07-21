@@ -31,39 +31,39 @@ class ColumnRepoTest {
         assertEquals(entityList.size(), 2);
     }
 
-
-
     @Test
     void createColumn() {
+        int expectedListSize = 3;
         ColumnEntity column = getColumn();
         columnRepo.createColumn(column);
-        ColumnEntity found = columnRepo.findColumnById(column.getId());
-        assertEquals(column.getId(), found.getId());
+        List<ColumnEntity> entityList = new ArrayList<>();
+        columnRepo.getAllColumns().forEach(e -> entityList.add(e));
+        assertEquals(entityList.size(), expectedListSize);
+
     }
 
     @Test
     void renameColumn() {
-        ColumnEntity column = getColumn();
-        columnRepo.createColumn(column);
-        column.setName("rename");
-        columnRepo.renameColumn(column.getId(), column);
-        assertEquals("rename", column.getName());
+        String rename = "new name";
+        Long columnId = 2l;
+        ColumnEntity column = columnRepo.findColumnById(columnId);
+        column.setName(rename);
+        columnRepo.renameColumn(columnId, column);
+        assertEquals(rename, column.getName());
+    }
+    @Test
+    void findColumnById() {
+        Long findColumnID = 1l;
+        ColumnEntity result = columnRepo.findColumnById(findColumnID);
+        assertEquals(findColumnID, result.getId());
     }
 
-    @Test
+        @Test
     void deleteColumn() {
         ColumnEntity column = getColumn();
         columnRepo.createColumn(column);
         Long returnDeletedId = columnRepo.deleteColumn(column.getId());
         assertEquals(column.getId(), returnDeletedId);
-    }
-
-    @Test
-    void findColumnById() {
-        ColumnEntity column = getColumn();
-        columnRepo.createColumn(column);
-        ColumnEntity result = columnRepo.findColumnById(column.getId());
-        assertEquals(column.getId(), result.getId());
     }
 
     private ColumnEntity getColumn() {

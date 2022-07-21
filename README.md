@@ -35,3 +35,12 @@ Update task - PUT "/tasks/id?columnId=id"
 
 Delete task by id - DELETE "/tasks/id"
 
+Used:
+ - Spring boot Rest Api
+ - Component-oriented Architecture
+ - H2 database
+ - Unit tests Junit, Mock
+ - logger Log4j
+ - java code conventions
+ - Github
+
